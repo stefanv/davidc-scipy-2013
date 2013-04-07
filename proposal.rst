@@ -6,7 +6,7 @@ Diving into NumPy code
 Author(s)
 =========
 
-David Cournapeau and Stefan Van der Walt (Stefan to be confirmed)
+David Cournapeau and Stéfan Van der Walt (Stéfan to be confirmed)
 
 Level
 =====
@@ -35,7 +35,7 @@ level and how it is hooked up to the Python runtime. You will also learn how to
 add a new ufunc and a new data type.
 
 During the tutorial, we will also have a look at various tools (unix-oriented)
-that can help tracking bugs or follow a particular numpy expresion from its
+that can help tracking bugs or follow a particular numpy expression from its
 python representation to its low-level implementation.
 
 While a working knowledge of C and Python is required, we do not assume a
@@ -52,9 +52,9 @@ The tutorial will be divided in 3 main sections:
                 - Why extending numpy in C ? (and perhaps more importantly,
                   when you should not)
                 - being ready to develop on NumPy: building from sources, and
-                  building with different flags (optimization and debug)
+                  building with different flags (optimisation and debug)
 
-        1. Source code organization: description of the numpy source tree and
+        1. Source code organisation: description of the numpy source tree and
            high-level description of what belongs where: core vs the rest,
            core.multiarray, core.ufunc, scalar arrays and support libraries
            (npysort, npymath)
