@@ -1,18 +1,18 @@
-## Diving into NumPy
+# Diving into NumPy
 
  - Stéfan Van der Walt:
  - David Cournapeau: cournape@gmail.com / @cournape
 
+---
 
-
-## Goals of the tutorial
+# Goals of the tutorial
 
   - understand how NumPy works internally
   - obtain some actionable knowledge to work on NumPy codebase
 
+---
 
-
-## What will you learn ?
+# What will you learn ?
 
 At the end of this tutorial, you should be able to:
 
@@ -20,10 +20,10 @@ At the end of this tutorial, you should be able to:
   - know how to add new array methods, ufunc, and simple dtype
   - navigate and focus on some particular aspect of the codebase
 
-
+---
 
  
-## Appropriate usecases to modify numpy
+# Appropriate usecases to modify numpy
 
 Default thought: don`t !
 
@@ -32,16 +32,17 @@ Default thought: don`t !
 
 TODO: examples
 
+---
 
-
-## Appropriate usecases to modify numpy (Cont.)
+# Appropriate usecases to modify numpy (Cont.)
 
  - fixing a numpy bug
  - improving the speed of some particular feature
  - you`re following this tutorial
 
+---
 
-## Exercise:
+# Exercise:
 
 Try to fix https://github.com/numpy/numpy/issues/2592
 
