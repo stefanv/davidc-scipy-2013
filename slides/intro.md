@@ -1,51 +1,54 @@
-# Diving into NumPy
-
- - Stéfan Van der Walt:
- - David Cournapeau: cournape@gmail.com / @cournape
+# Learn how NumPy works internally ...
 
 ---
 
-# Goals of the tutorial
-
-  - understand how NumPy works internally
-  - obtain some actionable knowledge to work on NumPy codebase
+# ... so that you can improve it ?
 
 ---
-
 # What will you learn ?
+---
 
-At the end of this tutorial, you should be able to:
+## Find your way into the codebase
 
-  - build numpy to customize it
-  - know how to add new array methods, ufunc, and simple dtype
-  - navigate and focus on some particular aspect of the codebase
+<!-- find image of messy stuff -->
+---
+
+## work efficiently on numpy
+<!-- bento build terminal output -->
+
+.small [
+]
+---
+
+## Implement array method, ufunc, dtype
 
 ---
 
- 
-# Appropriate usecases to modify numpy
+## and some tools on the way 
 
-Default thought: don`t !
-
- - new features usually better handled outside numpy
- - you really want to use cython
-
-TODO: examples
+<!-- pictures of flame graph / kcachegrind with numpy-relevant info -->
 
 ---
 
-# Appropriate usecases to modify numpy (Cont.)
-
- - fixing a numpy bug
- - improving the speed of some particular feature
- - you`re following this tutorial
+# Beware
+<!-- TODO pic -->
 
 ---
 
-# Exercise:
+## most features best implemented outside numpy
 
-Try to fix https://github.com/numpy/numpy/issues/2592
+---
 
-	- find out where the meat of the functionality is implemented
-	- can you understand the bug ?
-	- fix it !
+# When is modifying NumPy appropriate ?
+
+---
+
+## to fix a numpy bug
+
+---
+
+## to improve some existing NumPy features
+
+---
+
+## to follow this tutorial
