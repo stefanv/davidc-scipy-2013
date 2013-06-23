@@ -1,12 +1,11 @@
----
-
-# 0. Cautionary words
-
----
+class: center, bottom, inverse
+background-image:url(pictures/tinguely1.jpg)
 
 # Learn how NumPy works internally ...
 
 ---
+background-image:url(pictures/Tinguely.jpg)
+class:right,bottom
 
 # ... so that you can improve it ?
 
@@ -16,14 +15,11 @@
 
 ## Find your way into the codebase
 
-<!-- find image of messy stuff -->
 ---
 
 ## work efficiently on numpy
 <!-- bento build terminal output -->
 
-.small [
-]
 ---
 
 ## Implement array method, ufunc, dtype

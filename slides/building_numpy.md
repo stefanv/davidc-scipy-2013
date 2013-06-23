@@ -32,6 +32,11 @@ template:inverse
 <!-- another pic here -->
 
 ---
+template:inverse
+# Building with Bento
+
+---
+
 layout:false
 .left-column[
  ## Building with Bento
@@ -75,5 +80,38 @@ CC=clang CFLAGS="-O0 -g -Wall -Wextra" \
 ]
 
 ---
+template:inverse
+# Practice
+---
 
-TODO: simple exercise to fix a warning
+layout:false
+.left-column[
+ ## A first exercise
+]
+
+.right-column[
+
+After setting up Bento, build NumPy with warning on
+
+```
+CFLAGS="-O0 -g -Wall -Wextra -W" bentomaker build -i
+```
+
+Lots of warnings of the type:
+
+```
+../numpy/linalg/lapack_litemodule.c:863:58: warning: \
+	unused parameter 'args' [-Wunused-parameter]
+lapack_lite_xerbla(PyObject *NPY_UNUSED(self), \
+	PyObject *args)
+1 warning generated.
+```
+
+NumPy has a special macro to decorate unused argument and give an error if they are used
+
+```
+void foo(PyObject *NPY_UNUSED(self), ...)
+```
+
+Try fixing one .c file so that there is no warning anymore
+]
