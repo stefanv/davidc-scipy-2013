@@ -10,7 +10,7 @@ background-image:url(KyotoFushimiInariLarge.jpg)
 layout:false
 
 .left-column[
-  ## Main subpackages
+  ## Main sub-<br/>packages
 ]
 
 .right-column[
