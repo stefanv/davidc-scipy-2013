@@ -109,3 +109,10 @@ code {
   float: right;
   padding-top: 2em;
 }
+.tip {
+  padding: 5px;
+  background: #e7e8e2;
+  border-top: solid 1px;
+  border-bottom: solid 1px;
+  font-size: 16px;
+}
