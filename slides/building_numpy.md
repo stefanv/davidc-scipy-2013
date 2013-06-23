@@ -1,6 +1,7 @@
 ---
+template: inverse
 
-# 1. Building NumPy
+# Building NumPy
 
 ---
 layout:false
@@ -76,4 +77,4 @@ CC=clang CFLAGS="-O0 -g -Wall -Wextra" \
 
 ---
 
-TODO: simple exercise to fix a warning
+TODO - simple exercise to fix a warning
