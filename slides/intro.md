@@ -22,8 +22,7 @@
 ## work efficiently on numpy
 <!-- bento build terminal output -->
 
-.small [
-]
+.small[Small text here]
 ---
 
 ## Implement array method, ufunc, dtype
