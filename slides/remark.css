@@ -18,7 +18,11 @@ h3 { font-size: 1.6em; }
   bottom: 3em;
 }
 li p { line-height: 1.25em; }
+
 .red { color: #fa0000; }
+.white { color: white; }
+.black { color: black; }
+
 .large { font-size: 2em; }
 a, a > code {
   color: rgb(249, 38, 114);
@@ -115,4 +119,29 @@ code {
   border-top: solid 1px;
   border-bottom: solid 1px;
   font-size: 16px;
+}
+
+.up10 {
+  position: relative;
+  top: -10px;
+}
+.up20 {
+  position: relative;
+  top: -20px;
+}
+.up30 {
+  position: relative;
+  top: -30px;
+}
+.down10 {
+  position: relative;
+  top: 10px;
+}
+.down20 {
+  position: relative;
+  top: 20px;
+}
+.down30 {
+  position: relative;
+  top: 30px;
 }

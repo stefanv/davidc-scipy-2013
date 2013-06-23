@@ -7,7 +7,9 @@ background-image:url(pictures/tinguely1.jpg)
 background-image:url(pictures/Tinguely.jpg)
 class:right,bottom
 
+.up30[
 # ... so that you can improve it ?
+]
 
 ---
 # What will you learn ?
