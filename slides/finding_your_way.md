@@ -1,4 +1,11 @@
 ---
+template:inverse
+
+background-image:url(pictures/KyotoFushimiInariLarge.jpg)
+
+# 3. Finding your way
+
+---
 
 Headers: ``numpy.get_include()``
 

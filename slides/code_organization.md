@@ -1,9 +1,9 @@
 ---
 template:inverse
 
-background-image:url(pictures/KyotoFushimiInariLarge.jpg)
+background-image:url(pictures/pollock.jpg)
 
-# 2. Finding your way into the source code
+# 2. Code organization
 
 ---
 
@@ -64,13 +64,3 @@ void foo()
 
 API "documented" in numpy/npy_math.h header
 ]
-
----
-layout:false
-
-<!--
-# Describe PyArray_Type + PyArrayObject
-# multiarray module
-	- define the scalar arrays types in scalartypes.c.src
-# talk a bit about the different iterator protocols, the API pointer, etc...
--->
