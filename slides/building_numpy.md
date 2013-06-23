@@ -1,6 +1,7 @@
 ---
+template: inverse
 
-# 1. Building NumPy
+# Building NumPy
 
 ---
 layout:false
