@@ -1,3 +1,9 @@
+---
+
+# 0. Cautionary words
+
+---
+
 # Learn how NumPy works internally ...
 
 ---

@@ -1,33 +1,79 @@
-# Building NumPy with distutils
+---
 
-    python setup.py build_ext -i
+# 1. Building NumPy
 
+---
+layout:false
 
-# Issues with distutils
+.left-column[
+  ## Building with distutils
+]
 
-- customizing build difficult
-- unreliable partial rebuilds
+.right-column[
+Simple in-place build with default compiler
 
+```bash
+$ python setup.py build_ext -i
+```
 
+Running the test suite on numpy.core
 
-# Using Bento
+```bash
+$ nosetests numpy/core
+```
 
+]
 
-# Installing bento for NumPy
+---
+template:inverse
 
-- get waf: git clone https://code.google.com/p/waf/ $waf-sources (no install)
-- get bento: git clone https://github.com/cournape/Bento.git and install it
-- set shell variable WAFDIR=$waf-sources
+# That was not too hard !
 
+<!-- another pic here -->
 
-# Simple in-place build
+---
+layout:false
+.left-column[
+ ## Building with Bento
+]
 
-- bentomaker build -i
-- bentomaker build -i -j8 -p # // builds
-- bentomaker --disable-autoconfigure build -i -j8 -p # // bypass configure
+.right-column[
 
+Setting bento requires a few steps
 
-# Interesting options
+```bash
+# Recommendation: do this in a virtualenv
+git clone https://github.com/cournape/Bento \
+	~/src/bento-git
+cd ~/src/bento-git && python setup.py install
+git clone https://code.google.com/p/waf ~/src/waf-git
+# Tells bento where to look for waf (waf has no setup.py)
+export WAFDIR=~/src/waf-git
+# In NumPy source tree
+bentomaker build -i
+```
 
-- CFLAGS="-O0 -g" LDFLAGS="-g" bentomaker ...
-- CFLAGS="-O0 -g -W -Wall -Wextra" LDFLAGS="-g" bentomaker ...
+Bento is nifty for NumPy development
+
+```bash
+# parallel builds
+bentomaker build -i -j4
+```
+
+```bash
+# reliable partial rebuilds
+# Hack to bypass autoconfigure
+bentomaker --disable-autoconfigure build -i -j4
+```
+
+```bash
+# easy compilation customization
+CC=clang CFLAGS="-O0 -g -Wall -Wextra" \
+	bentomaker build -i -j4
+```
+
+]
+
+---
+
+TODO: simple exercise to fix a warning
