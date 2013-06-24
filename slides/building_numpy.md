@@ -68,6 +68,7 @@ bentomaker build -i -j4
 
 ```bash
 # reliable partial rebuilds
+bentomaker build -i -j4
 # Hack to bypass autoconfigure
 bentomaker --disable-autoconfigure build -i -j4
 ```
