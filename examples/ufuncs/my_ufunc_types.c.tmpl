@@ -4,8 +4,11 @@
 #include <stdio.h>
 
 {{py:
-ctypes = ('double', 'int')
-dtypes = ('NPY_DOUBLE', 'NPY_INT')
+
+# *NOTE*: Order of this list is important.  First match (even with casting)
+#         will be used.
+ctypes = ('int8_t', 'int32_t', 'int64_t', 'float', 'double')
+dtypes = ('NPY_INT8', 'NPY_INT32', 'NPY_INT64', 'NPY_FLOAT', 'NPY_DOUBLE')
 
 nin = 1
 nout = 1
@@ -37,7 +40,7 @@ static void square_{{type}}(char** args,
         output += out_step;
     }
 
-    printf("Loop type: {{type}}\n");
+    /*    printf("-> Loop type: {{type}}\n"); */
 }
 {{endfor}}
 
