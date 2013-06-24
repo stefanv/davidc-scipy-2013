@@ -21,7 +21,6 @@ layout:false
 ]
 
 .right-column[
-
 .red[numpy/core]: the meat of NumPy (focus of the tutorial):
 
 - code for multiarray (src/multiarray), ufunc extensions (src/umath)
@@ -74,7 +73,9 @@ API "documented" in numpy/npy_math.h header
 ---
 layout:false
 
-.left-column[multiarray extension bird view]
+.left-column[
+  ## Multiarray extension bird's eye view
+]
 
 TODO: birdview of the different types
 
@@ -107,7 +108,7 @@ One numpy array -> one PyArrayObject instance
 layout:false
 
 .left-column[
-  ### dtype implementation details
+  ## dtype implementation details
 ]
 
 .right-column[
@@ -149,10 +150,11 @@ PyArray_ArrFuncs {
 ---
 <!--layout:false-->
 .left-column[
- ### PyArray_Type: your main ticket to follow code flow
+  ## PyArray_Type: your main ticket to follow code flow
 ]
 
 .right-column[
+.up30[
 PyArrayType is an extension type (singleton) which defines the array behavior
 
 ```c
@@ -185,11 +187,14 @@ b = a + a
 
 Addition is part of the number protocol -> look into array_as_number array.
 ]
+]
 
 ---
 layout:false
 
-.left-column[Example]
+.left-column[
+  ## Example
+]
 
 .right-column[
 First, let`s compile numpy in debug mode:
@@ -228,7 +233,7 @@ gdb python
 layout:false
 
 .left-column[
-PyArrayDescr_Type
+  ## PyArrayDescr_Type
 ]
 
 .right-column[
@@ -267,7 +272,7 @@ background-image:url(pictures/confusing_2.jpg)
 ---
 
 .left-column[
-Poor man's callgraphs
+  ## Poor man's callgraphs
 ]
 
 .right-column[
@@ -300,7 +305,7 @@ $ Ctrl+c
 ---
 
 .left-column[
-Poor man's callgraphs (Cont.)
+  ## Poor man's callgraphs (Cont.)
 ]
 
 .right-column[
@@ -340,7 +345,8 @@ Better support for dynamic probes in user space on the way.
 
 ---
 
-.left-column[Practice
+.left-column[
+  ## Practice
 ]
 
 .right-column[
