@@ -102,6 +102,45 @@ One numpy array -> one PyArrayObject instance
 ]
 
 ---
+layout:false
+
+.left-column[dtype implementation details]
+
+.right-column[PyArray_Descr contains the instance-spefic data of a dtype
+
+```c
+/* in numpy/ndarraytypes.h  */
+struct PyArray_Descr {
+  ...
+  char kind;
+  ...
+  /* used for structured array */
+  struct _arr_descr *subarray;
+  PyObject *fields;
+  PyObject *names;
+  /* a table of functions specific for each */
+  PyArray_ArrFuncs *f;
+  /* Metadata about this dtype */
+  PyObject *metadata;
+  NpyAuxData *c_metadata;
+}
+```
+
+One dtype object -> one PyArray_Descr instance.
+
+```c
+/* each dtype has its own set of function pointers */
+PyArray_ArrFuncs {
+  ...
+  PyArray_CopySwapNFunc *copyswapn;
+  PyArray_CopySwapFunc *copyswap;
+  ...
+}
+```
+
+]
+
+---
 
 layout:false
 
@@ -182,21 +221,26 @@ gdb python
 ---
 layout:false
 
-.left-column[PyArrayDescr_Type]
+.left-column[
+PyArrayDescr_Type
+]
 
 .right-column[
 PyArrayDescr_Type is an extension type (singleton) which defines the *dtype* class
 
-```c
+```
 /* in src/multiarray/descriptor.c */
 /* code simplified for presentation */
 PyTypeObject PyArrayDescr_Type = {
     ...
     "numpy.dtype",
     ...
-    /* sequence protocol (e.g. structured dtype) */
+    /* sequence protocol 
+       used e.g. in structured dtype */
     &descr_as_sequence,
-    &descr_as_mapping, /* mapping protocol */
+    /* mapping protocol 
+       used e.g. in structured dtype */
+    &descr_as_mapping,
     ...
     arraydescr_methods, /* methods */
     arraydescr_members, /* members */
@@ -204,18 +248,116 @@ PyTypeObject PyArrayDescr_Type = {
 }
 ```
 
+Less critical to understand Python <-> C layer.
 ]
----
 
----
 <!--
-#Headers: ``numpy.get_include()``
+---
+template:inverse
+background-image:url(pictures/confusing_2.jpg)
 
-# Exercise:
+## What if you can`t find your way ?
 
+---
+
+.left-column[
+Poor man's callgraphs
+]
+
+.right-column[
+Sometimes, you have no clue where to start (or just lazy):
+
+- you can use dtrace to get calltrace at runtime (dapptrace in dtrace toolkit)
+
+- poor man's replacement with Linux's perf tool:
+
+```
+# included in the USB key, also avail at 
+# http://bit.ly/10OI2UD
+import numpy as np
+from minilib import under_perf
+
+a = np.random.randn(10)
+
+while True
+    with under_perf():
+        a + a
+```
+
+```bash
+$ python test.py
+$ Ctrl+c
+# you should now get a perf.data file
+```
+]
+
+---
+
+.left-column[
+Poor man's callgraphs (Cont.)
+]
+
+.right-column[
+
+To look into the data:
+
+```
+$ perf -G -g --stdio
+```
+
+This will produce something like:
+
+```
+# condensed version
+3.96%   python  libm-2.17.so
+         |
+         --- __libc_start_main
+             main
+    	 ...
+             PyNumber_Add
+             binary_op1
+             array_add
+             PyArray_GenericBinaryFunction
+             _PyObject_CallFunction_SizeT
+             call_function_tail
+             PyObject_Call
+             ufunc_generic_call
+             PyUFunc_GenericFunction
+	     ...
+```
+
+`
+Caveat: sampling based (hence while True hack for short-lived functions).
+Better support for dynamic probes in user space on the way.
+`
+]
+
+---
+
+.left-column[Practice
+]
+
+.right-column[
 Try to fix https://github.com/numpy/numpy/issues/2592
 
-	- find out where the meat of the functionality is implemented
-	- can you understand the bug ?
-	- fix it !
--->
+> numpy.fromiter with a count argument hides any exception that might be raised
+> by the iterator as: ValueError: iterator too short
+
+```
+# test_fromiter_bug.py
+import numpy as np
+def load_data(n):
+    for e in xrange(n):
+        if e == 42:
+            raise Exception('42 is really a bad value')
+        yield e
+
+a = np.fromiter(load_data(50), dtype=int, count=50)
+```
+
+Questions:
+
+- find out where C is called
+- can you understand the bug ?
+- fix it !
+]
