@@ -3,7 +3,7 @@ template:inverse
 
 background-image:url(pictures/KyotoFushimiInariLarge.jpg)
 
-# 3. Finding your way
+# 3.2 Finding your way
 
 ---
 

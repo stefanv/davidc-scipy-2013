@@ -3,7 +3,7 @@ template:inverse
 
 background-image:url(pictures/pollock.jpg)
 
-# 2. Code organization
+# 3.1 Code organization
 
 ---
 

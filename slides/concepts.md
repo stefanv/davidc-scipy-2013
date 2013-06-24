@@ -1,7 +1,7 @@
 ---
 template: inverse
 
-# Concept overview
+# 1. Concept overview
 
 ### Data-types, memory layout, broadcasting, indexing, ufuncs
 
