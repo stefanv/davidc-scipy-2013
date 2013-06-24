@@ -17,12 +17,12 @@ background-image:url(pictures/pollock.jpg)
 layout:false
 
 .left-column[
-  ## Main sub-<br/>packages
+  ## Main sub-packages
 ]
 
 .right-column[
 
-.red[numpy/core]: the meat of NumPy (focus of the tutorial)
+.red[numpy/core]: the meat of NumPy (focus of the tutorial):
 
 - code for multiarray (src/multiarray), ufunc extensions (src/umath)
 
@@ -42,7 +42,9 @@ Other parts not on topic for this tutorial
 ---
 layout:false
 
-.left-column[npymath]
+.left-column[
+  ##npymath
+]
 
 .right-column[
 .red[npymath] is a small C99 abstraction for cross platform math operations
@@ -104,9 +106,13 @@ One numpy array -> one PyArrayObject instance
 ---
 layout:false
 
-.left-column[dtype implementation details]
+.left-column[
+  ### dtype implementation details
+]
 
-.right-column[PyArray_Descr contains the instance-spefic data of a dtype
+.right-column[
+
+PyArray_Descr contains the instance-spefic data of a dtype
 
 ```c
 /* in numpy/ndarraytypes.h  */
@@ -141,10 +147,10 @@ PyArray_ArrFuncs {
 ]
 
 ---
-
-layout:false
-
-.left-column[PyArray_Type: your main ticket to follow code flow]
+<!--layout:false-->
+.left-column[
+ ### PyArray_Type: your main ticket to follow code flow
+]
 
 .right-column[
 PyArrayType is an extension type (singleton) which defines the array behavior
