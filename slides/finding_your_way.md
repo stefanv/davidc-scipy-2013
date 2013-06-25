@@ -291,7 +291,7 @@ from minilib import under_perf
 
 a = np.random.randn(10)
 
-while True
+while True:
     with under_perf():
         a + a
 ```
