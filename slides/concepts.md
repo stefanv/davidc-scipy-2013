@@ -9,10 +9,27 @@ template: inverse
 layout: false
 
 .left-column[
-  ## Data types
+  ## Data types and types
+
+**Scalar types**: ``np.float64``, ``np.int32``, etc.
+
+**Array scalars** (e.g. ``x[0]``) are somewhat special: each array scalar has
+its own type (``np.float32``, ``np.uint32``, etc.) -- but also has an
+attached dtype.  Acts as a bridge between arrays and Python scalars.
+
 ]
 .right-column[
-]
+.up30[
+![Scalar hierarchy](pictures/sctype-hierarchy.png)
+
+- From this, we can build a dtype:
+  ```
+  # Build a 32-bit, Big Endian, floating point dtype
+  d = np.dtype(np.float32).newbyteorder('>')
+  ```
+- Dtypes describe memory layout of arrays; i.e, all arrays are of type
+  ``ndarray``, with attached data-type.
+]]
 
 ---
 .left-column[
@@ -83,14 +100,4 @@ None, indexing + broadcasting
 .tip[.red[TIP] Best to avoid ``:`` and ``...`` in broadcasting--output shape is
 sometimes hard to predict.]
 
-]
-
----
-
-.left-column[
-  ## Universal Functions
-]
-
-.right-column[
-  Standard vs generic
 ]
