@@ -77,8 +77,6 @@ layout:false
   ## Multiarray extension bird's eye view
 ]
 
-TODO: birdview of the different types
-
 .right-column[Contain the implementation of the array, dtype and iterators
 objects:
 
