@@ -3,7 +3,7 @@ template: inverse
 
 # 1. Concept overview
 
-### Data-types, memory layout, broadcasting, indexing, ufuncs
+### Data-types, strides, broadcasting, indexing
 
 ---
 layout: false
@@ -32,14 +32,43 @@ attached dtype.  Acts as a bridge between arrays and Python scalars.
 ]]
 
 ---
+
 .left-column[
-  ## Memory layout
+  ## Strides
+  <img src="pictures/array_memory_dtype.png" width="430%"/>
+]
+
+---
+.left-column[
+  ## Strides - transpose
+  <img src="pictures/array_memory_strides_transpose.png" width="500%"/>
 ]
 
 ---
 
 .left-column[
   ## Broadcasting
+]
+
+.right-column[
+
+Combine arrays of different shapes sensibly:
+
+```
+>>> x = np.zeros((3, 5))
+>>> y = np.zeros(8)
+>>> (x[..., np.newaxis] + y).shape
+(3, 5, 8)
+```
+
+![broadcasting two vectors to form a higher-dimensional array](pictures/array_3x5x8.png)
+
+]
+
+---
+
+.left-column[
+  ## Broadcasting compatibility
 ]
 
 .right-column[
@@ -61,41 +90,33 @@ left.  Match when:
 ---
 
 .left-column[
-  ## Broadcasting example
+  ## Indexing with broadcasting
 ]
 
 .right-column[
 
-```python
->>> x = np.arange(4)
->>> y = x[:, np.newaxis]
->>> x
-array([0, 1, 2, 3])
->>> y
-array([[0],
-       [1],
-       [2],
-       [3]])
->>> x.shape
-(4,)
->>> y.shape
-(4, 1)
->>> (x + y).shape
-(4, 4)
 ```
+>>> x = np.array([[1, 2], [3, 4]])
+array([[1, 2],
+       [3, 4]])
 
-See also ``np.broadcast_arrays``.
+>>> ix0 = np.array([0, 0, 1, 1])
+>>> ix1 = np.array([[1], [0]])
+array([[1],
+       [0]])
 
-]
+>>> x[ix0, ix1]
+array([[2, 2, 4, 4],
+       [1, 1, 3, 3]])
+```
+```python
+>>> np.broadcast_arrays(ix0, ix1)
+[array([[0, 0, 1, 1],
+       [0, 0, 1, 1]]),
+ array([[1, 1, 1, 1],
+       [0, 0, 0, 0]])]
 
----
-.left-column[
-  ## Indexing
-]
-
-.right-column[
-
-None, indexing + broadcasting
+```
 
 .tip[.red[TIP] Best to avoid ``:`` and ``...`` in broadcasting--output shape is
 sometimes hard to predict.]
