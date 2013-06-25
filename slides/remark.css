@@ -147,3 +147,24 @@ code {
   position: relative;
   top: 30px;
 }
+.down50{
+  position: relative;
+  top: 50px;
+}
+
+.rot90 {
+/* Safari */
+-webkit-transform: rotate(-90deg);
+
+/* Firefox */
+-moz-transform: rotate(-90deg);
+
+/* IE */
+-ms-transform: rotate(-90deg);
+
+/* Opera */
+-o-transform: rotate(-90deg);
+
+/* Internet Explorer */
+filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}

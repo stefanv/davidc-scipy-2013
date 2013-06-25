@@ -233,8 +233,12 @@ gdb python
 layout:false
 
 .left-column[
+.down50[
+.down50[
+.down50[
+.rot90[
   ## PyArrayDescr_Type
-]
+]]]]]
 
 .right-column[
 PyArrayDescr_Type is an extension type (singleton) which defines the *dtype* class
