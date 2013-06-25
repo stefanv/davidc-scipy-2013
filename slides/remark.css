@@ -24,6 +24,8 @@ li p { line-height: 1.25em; }
 .black { color: black; }
 
 .large { font-size: 2em; }
+.small { font-size: 0.5em; }
+
 a, a > code {
   color: rgb(249, 38, 114);
   text-decoration: none;

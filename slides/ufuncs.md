@@ -156,15 +156,10 @@ setbufsize(size)        Set the size of the buffer used in ufuncs.
 ---
 
 .left-column[
-  ## Data type promotion
+  ## Type handling
 ]
 
 .right-column[
-
-```python
->>> np.add([1, 2], [3.5])
-array([ 4.5,  5.5])
-```
 
 ``types`` attribute of ufunc, e.g. ``np.add.types``.
 
@@ -185,13 +180,7 @@ See also ``np.sctypeDict``.
 If no suitable ufunc loop exists, try to find one to which can be cast safely
 (``np.can_cast``).  Can specify casting policy to ufunc via ``casting`` keyword
 (``no``, ``equiv``, ``same_kind``, or ``unsafe``--default is the safe 
-``same_kind``).
-
-Scalar transformation
-Combination of arrays -- generalized ufuncs
-Reductions
-From Cython (Pauli Virtanen):
-  http://scipy-lectures.github.io/advanced/advanced_numpy/index.html#universal-functions
+``same_kind``).  Linear search through available functions--use first match.
 ]
 
 ---
@@ -201,6 +190,7 @@ From Cython (Pauli Virtanen):
 ]
 
 .right-column[
+.up30[
 
 - ``ufunc.reduce(a[, axis, dtype, out, keepdims])``<br/>
   Reduces a‘s dimension by one, by applying ufunc along one axis.
@@ -211,37 +201,146 @@ From Cython (Pauli Virtanen):
 - ``ufunc.reduceat(a, indices[, axis, dtype, out])``<br/>
   Performs a (local) reduce with specified slices over a single axis.
 
+  ```python
+  >>> x = np.arange(12).reshape((3, 4))
+  array([[ 0,  1,  2,  3],
+         [ 4,  5,  6,  7],
+         [ 8,  9, 10, 11]])
+
+  >>> np.add.reduceat(x, [0, 1, 3], axis=1)
+  array([[ 0,  3,  3],
+         [ 4, 11,  7],
+         [ 8, 19, 11]])
+  ```
+
 - ``ufunc.outer(A, B)``<br/>
   Apply the ufunc op to all pairs (a, b) with a in A and b in B.
 
-]
+]]
 
 ---
 
 .left-column[
-  ## Implementing a ufunc
+  ## Implementing a ufunc - the kernel
 ]
 
 .right-column[
+.up20[
+```
+static void square_d(char** args,
+                     npy_intp* dimensions,
+                     npy_intp* steps,
+                     void *data)
+{
+    npy_intp n = dimensions[0]; /* input length */
 
-Credit: Chris Jordan-Squire, who wrote the numpy user guide entry
-]
+    char *input = args[0];
+    char *output = args[1];
+
+    npy_intp in_step = steps[0]; /* input stride */
+    npy_intp out_step = steps[1]; /* output stride */
+
+    double tmp;
+    npy_intp i;
+
+    for (i = 0; i < n; i++) {
+        tmp = *( (double *)input );
+        tmp = tmp * tmp;
+
+        *((double *)output) = tmp;
+
+        input += in_step;
+        output += out_step;
+    }
+}
+```
+
+*Credit:* Chris Jordan-Squire, who wrote the numpy user guide entry.
+]]
 
 ---
 
 .left-column[
-  ## Pre-defined loops
+  ## Implementing a ufunc - slotting into NumPy
 ]
 
 .right-column[
+``PyUFunc_FromFuncAndData`` - return a universal function based on a
+kernel + meta-data
+```
+// Set up the numpy structures
+import_array();
+import_umath();
 
-``PyUfunc_f_f  `` : ``float elementwise_func(float input_1)``
-``PyUfunc_ff_f `` : ``float elementwise_func(float input_1, float input_2)``
-``PyUfunc_d_d  `` : ``double elementwise_func(double input_1)``
-``PyUfunc_dd_d `` : ``double elementwise_func(double input_1, double input_2)``
-``PyUfunc_D_D  `` : ``elementwise_func(npy_cdouble *input, npy_cdouble* output)``
-``PyUfunc_DD_D `` : ``elementwise_func(npy_cdouble *in1, npy_cdouble *in2, npy_cdouble* out)``
+PyUFuncGenericFunction funcs[1] = {&square_d};
+void *data[1] = {NULL};
+char types[2] = {NPY_DOUBLE, NPY_DOUBLE};
 
+// The above structures are not copied
+//    -- must remain visible --
+
+PyObject* ufunc =
+  PyUFunc_FromFuncAndData(funcs, data, types,
+                          1, /* nr of data types */
+                          1, 1, /* nr in & out */
+                          PyUFunc_None, /* identity */
+                          "square", /* function name */
+                          "docstring", /* docstring */
+                          0); /* unused */
+```
+Use the resulting ``ufunc`` inside your module.  See the
+[full source](https://github.com/enthought/davidc-scipy-2013/blob/master/examples/ufuncs/my_ufunc.c).
 ]
+
+---
+.left-column[
+  ## Implementing a ufunc - provided inner loops
+]
+
+.right-column[
+.up20[.up30[
+```
+double kernel(double d) {
+    ...;
+}
+
+static void *data[] = {&square_d};
+static char types[] = {NPY_DOUBLE, NPY_DOUBLE};
+static PyUFuncGenericFunction funcs[sizeof(data)];
+
+PyMODINIT_FUNC initmy_ufunc_noloop(void) {
+...
+    funcs[0] = &PyUFunc_d_d;
+    ufunc = PyUFunc_FromFuncAndData(
+                    funcs, data, types,
+                    1,    /* nr of data types */
+                    1, 1, /* nr in & out */
+                    PyUFunc_None, /* identity */
+                    "square", /* function name */
+                    "docstring", /* docstring */
+                    0); /* unused */
+...
+}
+```
+Examples ([full source](https://github.com/enthought/davidc-scipy-2013/blob/master/examples/ufuncs/my_ufunc_noloop.c)):
+```
+PyUfunc_f_f(args, dimensions, steps, func)
+  float elementwise_func(float in1)
+PyUfunc_dd_d
+  double elementwise_func(double in1, double in2)
+
+PyUFunc_ff_f_As_dd_d
+  double elementwise_func(double in1, double in2)
+```
+]]]
+---
+
+<!--
+Scalar transformation
+Combination of arrays -- generalized ufuncs
+Reductions
+From Cython (Pauli Virtanen):
+  http://scipy-lectures.github.io/advanced/advanced_numpy/index.html#universal-functions
+-->
 
 <!-- Type resolution -->
