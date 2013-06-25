@@ -112,7 +112,6 @@ layout:false
 ]
 
 .right-column[
-
 PyArray_Descr contains the instance-spefic data of a dtype
 
 ```c
@@ -313,7 +312,6 @@ $ Ctrl+c
 ]
 
 .right-column[
-
 To look into the data:
 
 ```
