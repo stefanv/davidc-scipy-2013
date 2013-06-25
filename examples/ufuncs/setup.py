@@ -13,10 +13,14 @@ def template(fn):
 template('my_ufunc_types.c.tmpl')
 
 
-ext = Extension("my_ufuncs", ["my_ufuncs.c"],
-                include_dirs=[numpy.get_include()])
-ext = Extension("my_ufunc_types", ["my_ufunc_types.c"],
-                include_dirs=[numpy.get_include()])
+extensions = [
+    Extension("my_ufunc", ["my_ufunc.c"],
+              include_dirs=[numpy.get_include()]),
+    Extension("my_ufunc_types", ["my_ufunc_types.c"],
+              include_dirs=[numpy.get_include()]),
+    Extension("my_ufunc_noloop", ["my_ufunc_noloop.c"],
+              include_dirs=[numpy.get_include()])
+]
 
 
-setup(ext_modules=[ext])
+setup(ext_modules=extensions)

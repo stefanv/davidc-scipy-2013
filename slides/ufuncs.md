@@ -11,7 +11,6 @@ template: inverse
 
 .right-column[
 
-``numpy/core/include/numpy/ufunc_api.txt``
 ``numpy/core/include/numpy/ufuncobject.h``
 
 - Vectorized function that takes a fixed number of scalar inputs and produces a
@@ -191,6 +190,8 @@ If no suitable ufunc loop exists, try to find one to which can be cast safely
 Scalar transformation
 Combination of arrays -- generalized ufuncs
 Reductions
+From Cython (Pauli Virtanen):
+  http://scipy-lectures.github.io/advanced/advanced_numpy/index.html#universal-functions
 ]
 
 ---
@@ -226,5 +227,21 @@ Reductions
 Credit: Chris Jordan-Squire, who wrote the numpy user guide entry
 ]
 
+---
+
+.left-column[
+  ## Pre-defined loops
+]
+
+.right-column[
+
+``PyUfunc_f_f  `` : ``float elementwise_func(float input_1)``
+``PyUfunc_ff_f `` : ``float elementwise_func(float input_1, float input_2)``
+``PyUfunc_d_d  `` : ``double elementwise_func(double input_1)``
+``PyUfunc_dd_d `` : ``double elementwise_func(double input_1, double input_2)``
+``PyUfunc_D_D  `` : ``elementwise_func(npy_cdouble *input, npy_cdouble* output)``
+``PyUfunc_DD_D `` : ``elementwise_func(npy_cdouble *in1, npy_cdouble *in2, npy_cdouble* out)``
+
+]
 
 <!-- Type resolution -->

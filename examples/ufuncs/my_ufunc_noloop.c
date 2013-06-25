@@ -2,43 +2,21 @@
 #include <numpy/ndarraytypes.h>
 #include <numpy/ufuncobject.h>
 
-
-static void square_d(char** args,
-                     npy_intp* dimensions, npy_intp* steps,
-                     void *NPY_UNUSED(data))
-{
-    npy_intp n = dimensions[0];
-
-    char *input = args[0];
-    char *output = args[1];
-
-    npy_intp in_step = steps[0];
-    npy_intp out_step = steps[1];
-
-    double tmp;
-    npy_intp i;
-
-    for (i = 0; i < n; i++) {
-        tmp = *( (double *)input );
-        tmp = tmp * tmp;
-
-        *((double *)output) = tmp;
-
-        input += in_step;
-        output += out_step;
-    }
+double square_d(double d) {
+    return d * d;
 }
 
-static PyUFuncGenericFunction funcs[1] = {&square_d};
-static void *data[1] = {NULL};
-static char types[2] = {NPY_DOUBLE, NPY_DOUBLE};
+static void *data[] = {&square_d};
+static char types[] = {NPY_DOUBLE, NPY_DOUBLE};
+static PyUFuncGenericFunction funcs[sizeof(data)];
+
 
 
 /* -------------------------------------------------------------------------- */
 /* See http://docs.python.org/2.7/extending/index.html                        */
 /* -------------------------------------------------------------------------- */
 
-PyMODINIT_FUNC initmy_ufunc(void)
+PyMODINIT_FUNC initmy_ufunc_noloop(void)
 {
     PyObject *m, *ufunc, *d;
 
@@ -47,13 +25,14 @@ PyMODINIT_FUNC initmy_ufunc(void)
         {NULL, NULL, 0, NULL} /* Sentinel */
     };
 
-    m = Py_InitModule("my_ufunc", module_methods);
+    m = Py_InitModule("my_ufunc_noloop", module_methods);
     if (m == NULL) return;
 
     /* Initialize numpy structures */
     import_array();
     import_umath();
 
+    funcs[0] = &PyUFunc_d_d;
     ufunc = PyUFunc_FromFuncAndData(funcs, data, types,
                                     1, /* nr of data types */
                                     1, 1, /* nr in & out */

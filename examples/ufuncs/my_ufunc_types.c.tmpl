@@ -17,7 +17,8 @@ N = len(ctypes)
 
 {{for type in ctypes}}
 static void square_{{type}}(char** args,
-                     npy_intp* dimensions, npy_intp* steps, void* data)
+                            npy_intp* dimensions, npy_intp* steps,
+                            void *NPY_UNUSED(data))
 {
     npy_intp n = dimensions[0];
 
@@ -44,12 +45,12 @@ static void square_{{type}}(char** args,
 }
 {{endfor}}
 
-PyUFuncGenericFunction funcs[{{ N }}] = {
+static PyUFuncGenericFunction funcs[] = {
     {{ ', '.join('square_%s' % t for t in ctypes) }}
 };
 
-static void *data[{{ N }}] = { {{ ', '.join(['NULL'] * N) }} };
-static char types[{{ N * (nin + nout) }}] = {
+static void *data[] = { {{ ', '.join(['NULL'] * N) }} };
+static char types[] = {
     {{ ', '.join(', '.join([d, d]) for d in dtypes) }}
 };
 
