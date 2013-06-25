@@ -25,6 +25,32 @@ background-image:url(pictures/diving_baby.jpg)
 ---
 
 {{INCLUDE intro.md}}
+---
+layout:false
+
+.left-column[
+## Setting up vagrant
+]
+.right-column[
+Strongly advised to do the exercises:
+
+- install virtualbox (included in usb)
+- install vagrant 1.2.1 (included in usb)
+
+Creating the VM:
+
+```bash
+mkdir numpy_tuto 
+cd numpy_tuto
+cp /usbdisk/Vagrantfile .
+cp /usbdisk/numpy_tuto.box .
+vagrant box add numpy_tuto numpy_tuto.box
+vagrant up
+# You can ssh into it as followed
+vagrant ssh -- -A
+```
+]
+---
 {{INCLUDE concepts.md}}
 {{INCLUDE building_numpy.md}}
 {{INCLUDE finding_your_way.md}}
@@ -40,6 +66,8 @@ TODO for code organization
 
 {{INCLUDE ufuncs.md}}
 {{INCLUDE custom_dtypes.md}}
+
+background-image:url(pictures/flying_baby.jpg)
 
 </textarea>
 
