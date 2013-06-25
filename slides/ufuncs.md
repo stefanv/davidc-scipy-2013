@@ -56,13 +56,14 @@ Keywords:
 
 - ``out`` : Output array, useful for in-place computation.
 - ``where`` : Ufunc only calculated where ``broadcast(mask, inputs) == True``.
+  Careful! Undefined where no elements are encountered.
 - ``casting`` : Casting behavior (more later).
 - ``order`` : Calculation iteration order and memory layout of output array.
 - ``dtype`` : Output *and calculation* dtype.  Often important for
   accumulators.
 - ``sig`` : Data-type or signature string; indicates which underlying 1-D loop
   is executed (typically the loops are found automatically).  See ``types``
-  attribute.
+  attribute.  Example: ``ff->f``.
 - ``extobj`` : Specify ufunc buffer size, error mode integer, error call-back
   function.
 
@@ -101,7 +102,7 @@ StrongArray
 ]
 
 .right-column[
-
+.up20[
 Otherwise, by ``output`` parameter.  Output class may have following methods:
 
 - ``__array_prepare__`` :
@@ -112,7 +113,8 @@ Otherwise, by ``output`` parameter.  Output class may have following methods:
 
 ```python
 In [159]: class MyArray(np.ndarray):
-     ...:     def __array_prepare__(self, array, (ufunc, inputs, domain)):
+     ...:     def __array_prepare__(self,
+                     array, (ufunc, inputs, domain)):
      ...:         print 'Array:', array
      ...:         print 'Ufunc:', ufunc
      ...:         print 'Inputs:', inputs
@@ -124,7 +126,8 @@ In [159]: class MyArray(np.ndarray):
 In [160]: np.add([1, 2], [3, 4], out=m)
 Array: [[  6.93023165e-310   1.33936849e-316]]
 Ufunc: <ufunc 'add'>
-Inputs: ([1, 2], [3, 4], MyArray([[  6.93023165e-310,   1.33936849e-316]]))
+Inputs: ([1, 2], [3, 4], MyArray([[  6.93023165e-310,
+                                     1.33936849e-316]]))
 Domain: 0
 
 Out[160]: MyArray([[ 4.,  6.]])
@@ -143,7 +146,7 @@ interface for setting this variable is accessible using the function
 
 setbufsize(size)        Set the size of the buffer used in ufuncs.
 -->
-]
+]]
 
 ---
 
@@ -335,3 +338,52 @@ From Cython (Pauli Virtanen):
 -->
 
 <!-- Type resolution -->
+
+---
+
+.left-column[
+  ## Implementing a ufunc - multiple types
+]
+
+.right-column[.down30[.down30[
+You probably need a templating engine.
+
+You probably don't need NumPy's templating engine.
+
+<br/>
+Here's [an example using Tempita](https://github.com/enthought/davidc-scipy-2013/blob/master/examples/ufuncs/my_ufunc_types.c.tmpl)
+(as well as the
+[setup.py](https://github.com/enthought/davidc-scipy-2013/blob/master/examples/ufuncs/setup.py)).
+
+```python
+{{
+# *NOTE*: Order of this list is important.  First match
+#         (even with casting) will be used.
+ctypes = ('int8_t', 'int32_t', 'int64_t',
+          'float', 'double')
+dtypes = ('NPY_INT8', 'NPY_INT32', 'NPY_INT64',
+          'NPY_FLOAT', 'NPY_DOUBLE')
+}}
+
+{{for type in ctypes}}
+static void square_{{type}}(char** args,
+             npy_intp* dimensions, npy_intp* steps,
+             void *NPY_UNUSED(data))
+...
+```
+]]]
+
+---
+
+.left-column[
+  ## Hands-on
+]
+
+.right-column[
+
+1. Construct a custom ufunc ``poly(x, a, b)`` to evaluate the polynomial
+  ``x**2 + (3 - a)*x + b``.
+2. Do a timing comparison with a NumPy implementation using IPython's
+  ``%timeit``.
+
+]
