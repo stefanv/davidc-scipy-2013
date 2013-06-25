@@ -110,7 +110,7 @@ layout:false
 ]
 
 .right-column[
-PyArray_Descr contains the instance-spefic data of a dtype
+PyArray_Descr contains the instance-specific data of a dtype
 
 ```c
 /* in numpy/ndarraytypes.h  */
