@@ -381,8 +381,8 @@ static void square_{{type}}(char** args,
 
 .right-column[
 
-1. Construct a custom ufunc ``poly(x, a, b)`` to evaluate the polynomial
-  ``x**2 + (3 - a)*x + b``.
+1. Construct a custom ufunc ``poly(x, a)`` to evaluate the polynomial
+  ``(x**2 + 3) - a*x + 5``.
 2. Do a timing comparison with a NumPy implementation using IPython's
   ``%timeit``.
 
