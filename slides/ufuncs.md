@@ -10,7 +10,7 @@ template: inverse
 ]
 
 .right-column[
-
+.up30[
 ``numpy/core/include/numpy/ufuncobject.h``
 
 - Vectorized function that takes a fixed number of scalar inputs and produces a
@@ -18,15 +18,7 @@ fixed number of scalar outputs.
 
 - Supports array broadcasting, type casting, and other standard features
 
-]
-
----
-
-.left-column[
-  ## Pure Python ufunc
-]
-
-.right-column[
+Pure Python ufunc:
 
 ```python
 def range_sum(a, b):
@@ -47,15 +39,15 @@ array([[0, 0, 0, 0],
 ```
 
 - Note that broadcasting is supported
-- Unfortunately, the output is always an object array.  Also slow, because
+- Unfortunately, the output is always an object array.  Slow, because
   we're wrapping a Python call.
-
+]
 ]
 
 ---
 
 .left-column[
-  ## Ufunc calling
+  ## API: Calling
 ]
 
 .right-column[
@@ -333,7 +325,6 @@ PyUFunc_ff_f_As_dd_d
   double elementwise_func(double in1, double in2)
 ```
 ]]]
----
 
 <!--
 Scalar transformation
